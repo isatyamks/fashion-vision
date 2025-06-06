@@ -1,124 +1,144 @@
 import torch
-from transformers import CLIPProcessor, CLIPModel
-import pandas as pd
-from typing import List, Dict, Tuple
 import numpy as np
+import pandas as pd
+from pathlib import Path
+import faiss
 from PIL import Image
-import json
+import requests
+from io import BytesIO
+from transformers import CLIPProcessor, CLIPModel
+import logging
+from typing import List, Dict, Tuple, Optional
+import cv2
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 class ProductMatcher:
-    def __init__(self, catalog_path: str, model_name: str = "openai/clip-vit-base-patch32"):
-        """Initialize the product matcher with CLIP model and catalog."""
-        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        self.model = CLIPModel.from_pretrained(model_name).to(self.device)
+    def __init__(
+        self,
+        catalog_path: str = "catalog.csv",
+        model_name: str = "openai/clip-vit-base-patch32",
+        device: str = "cuda" if torch.cuda.is_available() else "cpu",
+        similarity_threshold: float = 0.75
+    ):
+        self.device = device
+        self.similarity_threshold = similarity_threshold
+        logger.info(f"Loading CLIP model: {model_name}")
+        self.model = CLIPModel.from_pretrained(model_name).to(device)
         self.processor = CLIPProcessor.from_pretrained(model_name)
         self.catalog = self._load_catalog(catalog_path)
-        self._precompute_catalog_embeddings()
+        self.catalog_embeddings = self._compute_catalog_embeddings()
+        self.index = self._build_faiss_index()
+
+    def save_response():
+
         
+        pass
+    
+    
+
+
     def _load_catalog(self, catalog_path: str) -> pd.DataFrame:
-        """Load and preprocess the product catalog."""
-        df = pd.read_csv(catalog_path)
-        return df
-    
-    def _precompute_catalog_embeddings(self):
-        """Precompute embeddings for all catalog items."""
-        self.catalog_embeddings = []
-        self.catalog_texts = []
+        catalog = pd.read_csv(catalog_path)
+        required_columns = ['id', 'title', 'description', 'product_type']
+        if not all(col in catalog.columns for col in required_columns):
+            raise ValueError(f"Catalog must contain columns: {required_columns}")
+        return catalog
         
-        for _, row in self.catalog.iterrows():
-            # Combine relevant text fields for richer embeddings
-            text = f"{row['title']} {row['product_type']} {row['description']}"
+    def _download_image(self, url: str) -> Optional[Image.Image]:
+        try:
+            response = requests.get(url, timeout=5)
+            response.raise_for_status()
+            return Image.open(BytesIO(response.content))
+        except Exception as e:
+            logger.warning(f"Failed to download image from {url}: {e}")
+            return None
             
-            # Attempt to extract color from product_tags
-            color = ""
-            if 'product_tags' in row and isinstance(row['product_tags'], str):
-                tags = row['product_tags'].split(', ')
-                for tag in tags:
-                    if tag.startswith('Colour:'):
-                        color = tag.replace('Colour:', '')
-                        break
-            
-            if color:
-                text += f" {color}"
-                
-            # Tokenize and truncate text to fit CLIP's max length (77 tokens)
-            # Use the processor for accurate tokenization and truncation
-            inputs = self.processor(text=text, return_tensors="pt", padding=True, truncation=True, max_length=77)
-            
-            # Move inputs to the correct device
-            inputs = {k: v.to(self.device) for k, v in inputs.items()}
-            
+    def _compute_catalog_embeddings(self) -> np.ndarray:
+        logger.info("Computing catalog embeddings...")
+        embeddings = []
+        batch_size = 32
+        max_length = 77
+        
+        for i in range(0, len(self.catalog), batch_size):
+            batch = self.catalog.iloc[i:i+batch_size]
+            texts = batch['description'].tolist()
+            texts = [text[:max_length] if len(text) > max_length else text for text in texts]
+            inputs = self.processor(
+                text=texts,
+                return_tensors="pt",
+                padding=True,
+                truncation=True,
+                max_length=max_length
+            ).to(self.device)
             with torch.no_grad():
-                # Use the tokenized inputs directly
-                text_features = self.model.get_text_features(**inputs).cpu().numpy()
-            self.catalog_embeddings.extend(text_features)
-            
-        self.catalog_embeddings = np.array(self.catalog_embeddings)
+                text_features = self.model.get_text_features(**inputs)
+                text_features = text_features / text_features.norm(dim=1, keepdim=True)
+                embeddings.append(text_features.cpu().numpy())
+                
+        return np.vstack(embeddings)
         
-    def compute_image_embedding(self, image: np.ndarray) -> np.ndarray:
-        """Compute CLIP embedding for an image."""
+    def _build_faiss_index(self) -> faiss.Index:
+        dimension = self.catalog_embeddings.shape[1]
+        index = faiss.IndexFlatIP(dimension)
+        index.add(self.catalog_embeddings)
+        return index
+        
+    def match_product(
+        self,
+        image: np.ndarray,
+        detection_type: str
+    ) -> Optional[Dict]:
         image = Image.fromarray(image)
-        inputs = self.processor(images=image, return_tensors="pt")
-        
-        # Move inputs to the correct device
-        inputs = {k: v.to(self.device) for k, v in inputs.items()}
-        
+        inputs = self.processor(
+            images=image,
+            return_tensors="pt",
+            padding=True
+        ).to(self.device)
         with torch.no_grad():
-            image_features = self.model.get_image_features(**inputs).cpu().numpy()
-        return image_features[0]
-    
-    def find_matches(self, image: np.ndarray, threshold: float = 0.75) -> List[Dict]:
-        """Find matching products for an image."""
-        image_embedding = self.compute_image_embedding(image)
+            image_features = self.model.get_image_features(**inputs)
+            image_features = image_features / image_features.norm(dim=1, keepdim=True)
+            query_embedding = image_features.cpu().numpy()
+        k = 5
+        similarities, indices = self.index.search(query_embedding, k)
+        best_similarity = similarities[0][0]
+        best_idx = indices[0][0]
+        if best_similarity < self.similarity_threshold:
+            return None
+        if best_similarity > 0.9:
+            match_type = "exact"
+        else:
+            match_type = "similar"
+        matched_product = self.catalog.iloc[best_idx]
+        if matched_product["product_type"].lower() != detection_type.lower():
+            return None
+        return {
+            "type": detection_type,
+            "match_type": match_type,
+            "matched_product_id": matched_product["id"],
+            "confidence": float(best_similarity),
+            "product_name": matched_product["title"],
+            "product_type": matched_product["product_type"],
+            "description": matched_product["description"]
+        }
         
-        # Compute similarities
-        similarities = np.dot(self.catalog_embeddings, image_embedding) / (
-            np.linalg.norm(self.catalog_embeddings, axis=1) * np.linalg.norm(image_embedding)
-        )
-        
-        # Get top matches regardless of threshold, sorted by confidence
-        matches = []
-        
-        # Print top similarity scores for debugging
-        print(f"Top similarity scores: {similarities[np.argsort(similarities)[::-1][:5]]}")
+    def process_detections(
+        self,
+        frame: np.ndarray,
+        detections: List[Dict]
+    ) -> List[Dict]:
+        matched_products = []
+        for detection in detections:
+            x1, y1, x2, y2 = detection["bbox"]
+            roi = frame[y1:y2, x1:x2]
+            if roi.size == 0:
+                continue
+            match = self.match_product(roi, detection["class"])
+            if match:
+                match["timestamp"] = detection["timestamp"] 
 
-        # Iterate through all products sorted by similarity
-        for idx in np.argsort(similarities)[::-1]:
-            product = self.catalog.iloc[idx]
-            confidence = float(similarities[idx])
 
-            # Determine match_type based on original thresholds (even if not filtering by 0.75)
-            match_type = "exact" if confidence > 0.9 else ("similar" if confidence >= 0.75 else "low_confidence")
-
-            # Attempt to extract color again for the output dictionary
-            output_color = ""
-            if 'product_tags' in product and isinstance(product['product_tags'], str):
-                 tags = product['product_tags'].split(', ')
-                 for tag in tags:
-                     if tag.startswith('Colour:'):
-                         output_color = tag.replace('Colour:', '')
-                         break
-
-            matches.append({
-                "type": product["product_type"],
-                "color": output_color,
-                "matched_product_id": int(product["id"]),
-                "match_type": match_type,
-                "confidence": confidence
-            })
-            
-        return matches[:4]  # Return top 4 matches by similarity
-    
-    def process_detections(self, detections: List[Dict], frames: List[np.ndarray]) -> List[Dict]:
-        """Process all detections and find matching products."""
-        all_matches = []
-        
-        for frame, detection in zip(frames, detections):
-            if detection["class"] in ["person", "clothing"]:  # Filter relevant detections
-                x1, y1, x2, y2 = map(int, detection["bbox"])
-                region = frame[y1:y2, x1:x2]
-                if region.size > 0:
-                    matches = self.find_matches(region)
-                    all_matches.extend(matches)
-                    
-        return all_matches 
+                # match["timestamp"] = detection["timestamp"]
+                matched_products.append(match)
+        return matched_products
