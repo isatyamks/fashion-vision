@@ -4,13 +4,13 @@ from PIL import Image
 import os
 
 def main():
-    model = YOLO("..\\..\\data_20\\runs\\detect\\fashion-v12\\weights\\best.pt")
-    names = model.names  # Class labels
-    conf_threshold = 0.5
-    output_dir = "video_crops"
+    model = YOLO("weights\\best.pt")
+    names = model.names
+    conf_threshold = 0.5  #learn how to adjust it and my idea is to increase the model accuracy from 3 to 30 epoch and then increace the threshold to get the authentic pic only
+    output_dir = "video_crops1"
     os.makedirs(output_dir, exist_ok=True)
 
-    video_path = "..\\data\\videos\\2025-05-31_14-01-37_UTC.mp4"
+    video_path = "data\\videos\\2025-05-31_14-01-37_UTC.mp4"
     cap = cv2.VideoCapture(video_path)
 
     frame_count = 0
@@ -19,21 +19,16 @@ def main():
         ret, frame = cap.read()
         if not ret:
             break
-
-        print(f"Processing frame {frame_count}...")
-
         pil_image = Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
         results = model(frame)[0]
-
-        print("Boxes:", results.boxes)
-        print("Coords:", results.boxes.xyxy)
-        print("Confidences:", results.boxes.conf)
-        print("Classes:", results.boxes.cls)
+        print(results.boxes)  # Print raw output
+        print(results.boxes.xyxy)  # Bounding boxes
+        print(results.boxes.conf)  # Confidence scores
+        print(results.boxes.cls)   # Class indices
 
         for i, (box, conf, cls) in enumerate(zip(results.boxes.xyxy, results.boxes.conf, results.boxes.cls)):
             if conf < conf_threshold:
                 continue
-
             x1, y1, x2, y2 = map(int, box)
             cropped = pil_image.crop((x1, y1, x2, y2))
             class_id = int(cls.item())
@@ -43,10 +38,9 @@ def main():
             print(f"Saved: {crop_filename}")
 
         frame_count += 1
-
     cap.release()
     cv2.destroyAllWindows()
-    print("Processing complete!")
+
 
 if __name__ == "__main__":
     main()
