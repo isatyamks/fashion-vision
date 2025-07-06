@@ -1,4 +1,4 @@
-# 🎯 Tagging & Vibe Classification Engine
+# Tagging & Vibe Classification Engine
 
 <div align="center">
 
@@ -13,23 +13,23 @@
 
 ---
 
-## 📋 Table of Contents
+## Table of Contents
 
-- [Overview](#-overview)
-- [Features](#-features)
-- [Architecture](#-architecture)
-- [Installation](#-installation)
-- [Usage](#-usage)
-- [Model Training](#-model-training)
-- [Data Structure](#-data-structure)
-- [API Reference](#-api-reference)
-- [Performance Metrics](#-performance-metrics)
-- [Contributing](#-contributing)
-- [License](#-license)
+- [Overview](#overview)
+- [Features](#features)
+- [Architecture](#architecture)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Model Training](#model-training)
+- [Data Structure](#data-structure)
+- [API Reference](#api-reference)
+- [Performance Metrics](#performance-metrics)
+- [Contributing](#contributing)
+- [License](#license)
 
 ---
 
-## 🎯 Overview
+## Overview
 
 The **Tagging & Vibe Classification Engine** is an advanced computer vision system designed to automatically detect, classify, and analyze fashion items from images and videos. Built on the YOLO (You Only Look Once) architecture, this engine provides real-time object detection with sophisticated duplicate removal and vibe classification capabilities.
 
@@ -43,20 +43,20 @@ The **Tagging & Vibe Classification Engine** is an advanced computer vision syst
 
 ---
 
-## ✨ Features
+## Features
 
-### 🎨 Fashion Item Detection
+### Fashion Item Detection
 - **Multi-class Classification**: Detects various fashion categories including:
   - Corporate Tops, Skirts, Gowns, Shoes
   - Casual Sneakers and Streetwear
   - Accessories and Fashion Elements
 
-### 🔍 Intelligent Duplicate Detection
+### Intelligent Duplicate Detection
 - **Color Histogram Analysis**: Compares color distributions for similarity
 - **Configurable Thresholds**: Adjustable similarity detection parameters
 - **Memory Efficient**: Optimized storage and comparison algorithms
 
-### 🎭 Vibe Classification System
+### Vibe Classification System
 The engine classifies fashion items into 7 distinct aesthetic vibes:
 
 | Vibe | Description | Style Characteristics |
@@ -69,34 +69,34 @@ The engine classifies fashion items into 7 distinct aesthetic vibes:
 | **Boho** | Bohemian, free-spirited | Ethnic patterns, natural materials |
 | **Party Glam** | Glamorous, festive, bold | Sparkles, bold colors, dramatic cuts |
 
-### 📹 Video Processing Capabilities
+### Video Processing Capabilities
 - **Frame Sampling**: Configurable frame skip rates for efficiency
 - **Batch Processing**: Process multiple videos simultaneously
 - **Real-time Analysis**: Live video stream processing support
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 ### System Components
 
 ```
 flickd/
-├── 📁 Core Engine
+├── Core Engine
 │   ├── model.py              # Main detection engine
 │   ├── data/main.py          # Data processing utilities
 │   └── weights/              # Trained model weights
 │
-├── 📁 Data Management
+├── Data Management
 │   ├── data/images.csv       # Image dataset
 │   ├── data/vibeslist.json   # Vibe classifications
 │   └── data/product_data.xlsx # Product metadata
 │
-├── 📁 Model Training
+├── Model Training
 │   ├── notebooks/            # Jupyter notebooks
 │   └── model_reports/        # Training metrics & visualizations
 │
-└── 📁 Output Processing
+└── Output Processing
     ├── crops/                # Extracted fashion items
     ├── video_crops*/         # Video frame extractions
     └── matched_results.csv   # Classification results
@@ -111,7 +111,7 @@ flickd/
 
 ---
 
-## 🚀 Installation
+## Installation
 
 ### Prerequisites
 
@@ -161,7 +161,7 @@ seaborn>=0.11.0
 
 ---
 
-## 📖 Usage
+## Usage
 
 ### Basic Image Detection
 
@@ -209,7 +209,7 @@ with open("data/vibeslist.json", "r") as f:
 
 ---
 
-## 🎯 Model Training
+## Model Training
 
 ### Training Configuration
 
@@ -254,7 +254,7 @@ The trained model achieves:
 
 ---
 
-## 📊 Data Structure
+## Data Structure
 
 ### Input Data Format
 
@@ -292,7 +292,7 @@ output/
 
 ---
 
-## 🔧 API Reference
+## API Reference
 
 ### Core Functions
 
@@ -326,7 +326,7 @@ output_dir = "video_crops_unique1"
 
 ---
 
-## 📈 Performance Metrics
+## Performance Metrics
 
 ### Model Performance
 
@@ -348,7 +348,7 @@ The model training generated comprehensive reports including:
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 We welcome contributions! Please follow these steps:
 
@@ -376,13 +376,13 @@ We welcome contributions! Please follow these steps:
 
 ---
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - **YOLO Community**: For the excellent object detection framework
 - **Ultralytics**: For the YOLO v8 implementation
@@ -391,7 +391,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-## 📞 Support
+## Support
 
 For questions, issues, or contributions:
 

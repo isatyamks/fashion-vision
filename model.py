@@ -53,7 +53,7 @@ def main():
                 continue
 
             saved_crops.append(cropped)
-            crop_filename = f"{class_name}_conf{conf:.2f}.jpg"
+            crop_filename = f"{output_dir}/{class_name}__{conf:.2f}.jpg"
             cropped.save(crop_filename)
             print(f"Saved unique: {crop_filename}")
 
