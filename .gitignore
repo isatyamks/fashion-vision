@@ -1,5 +1,6 @@
-/data/datasets
-/data/instagram_reels
+/data/datasets/train
+/data/datasets/valid
+# /data/instagram_reels
 /docs
 /kaggle_data
 /.ipynb_checkpoints

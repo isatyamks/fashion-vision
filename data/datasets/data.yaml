@@ -1,0 +1,13 @@
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 12
+names: ['Casual_Jeans', 'Casual_Sneakers', 'Casual_Top', 'Corporate_Gown', 'Corporate_Shoe', 'Corporate_Skirt', 'Corporate_Top', 'Corporate_Trouser', 'Native', 'Shorts', 'Suits', 'Tie']
+
+roboflow:
+  workspace: corporate-wear-detection-system
+  project: corporate-wear-detection-system
+  version: 7
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/corporate-wear-detection-system/corporate-wear-detection-system/dataset/7
