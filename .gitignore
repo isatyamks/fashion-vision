@@ -1,4 +1,5 @@
-/data
+/data/datasets
+/data/instagram_reels
 /docs
 /kaggle_data
 /.ipynb_checkpoints
