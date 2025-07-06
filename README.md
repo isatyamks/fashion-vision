@@ -7,107 +7,45 @@
 ![OpenCV](https://img.shields.io/badge/OpenCV-4.8+-green.svg)
 ![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-red.svg)
 
-*A sophisticated computer vision system for fashion item detection, classification, and vibe analysis*
+*A computer vision system for fashion item detection and product matching*
 
 </div>
 
 ---
 
-## Table of Contents
-
-- [Overview](#overview)
-- [Features](#features)
-- [Architecture](#architecture)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Model Training](#model-training)
-- [Data Structure](#data-structure)
-- [API Reference](#api-reference)
-- [Performance Metrics](#performance-metrics)
-- [Contributing](#contributing)
-- [License](#license)
-
----
-
 ## Overview
 
-The **Tagging & Vibe Classification Engine** is an advanced computer vision system designed to automatically detect, classify, and analyze fashion items from images and videos. Built on the YOLO (You Only Look Once) architecture, this engine provides real-time object detection with sophisticated duplicate removal and vibe classification capabilities.
+The **Tagging & Vibe Classification Engine** is a computer vision system designed to detect fashion items from videos and match them with product databases. The system uses YOLO for object detection and CLIP for semantic matching.
 
-### Key Capabilities
+### Key Features
 
-- **Real-time Fashion Detection**: Identify clothing items, accessories, and fashion elements
-- **Duplicate Removal**: Advanced similarity detection to eliminate redundant detections
-- **Vibe Classification**: Categorize fashion items into 7 distinct aesthetic vibes
-- **Video Processing**: Frame-by-frame analysis with configurable sampling rates
-- **High-Performance**: Optimized for speed and accuracy
-
----
-
-## Features
-
-### Fashion Item Detection
-- **Multi-class Classification**: Detects various fashion categories including:
-  - Corporate Tops, Skirts, Gowns, Shoes
-  - Casual Sneakers and Streetwear
-  - Accessories and Fashion Elements
-
-### Intelligent Duplicate Detection
-- **Color Histogram Analysis**: Compares color distributions for similarity
-- **Configurable Thresholds**: Adjustable similarity detection parameters
-- **Memory Efficient**: Optimized storage and comparison algorithms
-
-### Vibe Classification System
-The engine classifies fashion items into 7 distinct aesthetic vibes:
-
-| Vibe | Description | Style Characteristics |
-|------|-------------|---------------------|
-| **Coquette** | Romantic, feminine, delicate | Soft colors, lace, florals |
-| **Clean Girl** | Minimalist, fresh, natural | Neutral tones, simple cuts |
-| **Cottagecore** | Rural, vintage, whimsical | Earth tones, vintage patterns |
-| **Streetcore** | Urban, edgy, contemporary | Bold colors, streetwear |
-| **Y2K** | 2000s nostalgia, retro | Bright colors, futuristic elements |
-| **Boho** | Bohemian, free-spirited | Ethnic patterns, natural materials |
-| **Party Glam** | Glamorous, festive, bold | Sparkles, bold colors, dramatic cuts |
-
-### Video Processing Capabilities
-- **Frame Sampling**: Configurable frame skip rates for efficiency
-- **Batch Processing**: Process multiple videos simultaneously
-- **Real-time Analysis**: Live video stream processing support
+- **Video Processing**: Extract fashion items from video frames
+- **Duplicate Detection**: Remove similar items using color histogram analysis
+- **Product Matching**: Match detected items with product database using CLIP embeddings
+- **Batch Processing**: Handle multiple videos and large product catalogs
 
 ---
 
-## Architecture
-
-### System Components
+## Project Structure
 
 ```
-flickd/
-├── Core Engine
-│   ├── model.py              # Main detection engine
-│   ├── data/main.py          # Data processing utilities
-│   └── weights/              # Trained model weights
-│
-├── Data Management
-│   ├── data/images.csv       # Image dataset
-│   ├── data/vibeslist.json   # Vibe classifications
-│   └── data/product_data.xlsx # Product metadata
-│
-├── Model Training
-│   ├── notebooks/            # Jupyter notebooks
-│   └── model_reports/        # Training metrics & visualizations
-│
-└── Output Processing
-    ├── crops/                # Extracted fashion items
-    ├── video_crops*/         # Video frame extractions
-    └── matched_results.csv   # Classification results
+tag_engine/
+├── model.py                 # Main video processing script
+├── matching.py              # Product matching with CLIP
+├── bad_url_check.py         # URL validation utility
+├── src/
+│   └── similar.py           # Image similarity detection
+├── data/
+│   ├── instagram_reels/     # Input videos
+│   ├── shopify_data/        # Product database
+│   └── datasets/            # Training datasets
+├── weights/
+│   ├── epoch_3/             # Trained YOLO model
+│   └── epoch_10/            # Alternative model
+├── video_crops/             # Extracted fashion items
+├── results/                 # Matching results
+└── notebooks/               # Jupyter notebooks
 ```
-
-### Technical Stack
-
-- **Computer Vision**: YOLO v8, OpenCV, PIL
-- **Deep Learning**: PyTorch, Ultralytics
-- **Data Processing**: Pandas, NumPy
-- **Development**: Jupyter Notebooks, Python 3.8+
 
 ---
 
@@ -118,9 +56,8 @@ flickd/
 - Python 3.8 or higher
 - CUDA-compatible GPU (recommended)
 - 8GB+ RAM
-- 10GB+ free disk space
 
-### Quick Start
+### Setup
 
 1. **Clone the repository**
    ```bash
@@ -128,26 +65,224 @@ flickd/
    cd flickd
    ```
 
-2. **Create virtual environment**
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
-   ```
-
-3. **Install dependencies**
+2. **Install dependencies**
    ```bash
    pip install -r requirements.txt
    ```
 
-4. **Download model weights**
+3. **Download model weights**
    ```bash
-   # The weights/best.pt file should already be included
-   # If not, download from your model repository
+   # Ensure weights/epoch_3/best.pt exists
    ```
 
-### Dependencies
+---
 
-```txt
+## Usage
+
+### Video Processing
+
+Process videos to extract fashion items:
+
+```bash
+python model.py
+```
+
+**Configuration**:
+- Model: `weights/epoch_3/best.pt`
+- Confidence threshold: 0.6
+- Frame skip: 5 frames
+- Output: Timestamped directory in `video_crops/`
+
+### Product Matching
+
+Match extracted items with product database:
+
+```bash
+python matching.py
+```
+
+**Features**:
+- Uses CLIP model for semantic matching
+- Cosine similarity threshold: 0.85
+- Outputs CSV with matches and scores
+
+### URL Validation
+
+Check product image URLs:
+
+```bash
+python bad_url_check.py
+```
+
+---
+
+## Model Training
+
+### Dataset Structure
+
+The training dataset is organized as follows:
+
+```
+data/datasets/
+├── train/
+│   ├── images/          # Training images
+│   └── labels/          # YOLO format labels
+├── valid/
+│   ├── images/          # Validation images
+│   └── labels/          # YOLO format labels
+├── test/
+│   ├── images/          # Test images
+│   └── labels/          # YOLO format labels
+└── data.yaml            # Dataset configuration
+```
+
+### Dataset Configuration
+
+The `data.yaml` file contains:
+
+```yaml
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 12  # Number of classes
+names: ['Casual_Jeans', 'Casual_Sneakers', 'Casual_Top', 'Corporate_Gown', 
+        'Corporate_Shoe', 'Corporate_Skirt', 'Corporate_Top', 'Corporate_Trouser', 
+        'Native', 'Shorts', 'Suits', 'Tie']
+```
+
+### Training Commands
+
+#### Basic Training
+
+```bash
+# Train YOLO model on custom dataset
+yolo train model=yolov8n.pt data=data/datasets/data.yaml epochs=100 imgsz=640
+```
+
+#### Advanced Training
+
+```bash
+# Train with custom parameters
+yolo train \
+    model=yolov8m.pt \
+    data=data/datasets/data.yaml \
+    epochs=100 \
+    imgsz=640 \
+    batch=16 \
+    device=0 \
+    patience=50 \
+    save_period=10
+```
+
+#### Training Parameters
+
+| Parameter | Description | Default | Recommended |
+|-----------|-------------|---------|-------------|
+| `model` | Base model architecture | yolov8n.pt | yolov8m.pt |
+| `data` | Dataset configuration | - | data/datasets/data.yaml |
+| `epochs` | Number of training epochs | 100 | 100-300 |
+| `imgsz` | Input image size | 640 | 640 |
+| `batch` | Batch size | 16 | 16-32 |
+| `device` | Training device | auto | 0 (GPU) |
+| `patience` | Early stopping patience | 50 | 50 |
+| `save_period` | Save checkpoint every N epochs | -1 | 10 |
+
+### Training Output
+
+After training, you'll find:
+
+```
+runs/detect/train/
+├── weights/
+│   ├── best.pt          # Best model (highest mAP)
+│   └── last.pt          # Last checkpoint
+├── results.png          # Training metrics
+├── confusion_matrix.png # Confusion matrix
+└── args.yaml           # Training configuration
+```
+
+### Model Selection
+
+- **`best.pt`**: Use for inference (highest validation mAP)
+- **`last.pt`**: Use for resuming training or fine-tuning
+
+### Transfer Learning
+
+```bash
+# Continue training from existing weights
+yolo train \
+    model=weights/epoch_3/best.pt \
+    data=data/datasets/data.yaml \
+    epochs=50 \
+    imgsz=640
+```
+
+### Validation
+
+```bash
+# Validate trained model
+yolo val model=weights/epoch_3/best.pt data=data/datasets/data.yaml
+```
+
+### Performance Monitoring
+
+During training, monitor:
+- **mAP@0.5**: Mean Average Precision at IoU=0.5
+- **mAP@0.5:0.95**: Mean Average Precision across IoU thresholds
+- **Precision**: Precision on validation set
+- **Recall**: Recall on validation set
+
+---
+
+## Core Components
+
+### Video Processing (`model.py`)
+
+- **YOLO Detection**: Fashion item detection using trained model
+- **Frame Sampling**: Process every 5th frame for efficiency
+- **Duplicate Removal**: Color histogram-based similarity detection
+- **Crop Extraction**: Save unique fashion items with metadata
+
+### Product Matching (`matching.py`)
+
+- **CLIP Embeddings**: Generate semantic representations
+- **Cosine Similarity**: Compare extracted items with product database
+- **Batch Processing**: Handle large product catalogs efficiently
+- **Result Export**: Save matches to CSV with confidence scores
+
+### Similarity Detection (`src/similar.py`)
+
+- **Color Histogram**: Compare image color distributions
+- **Normalization**: Standardized comparison across images
+- **Configurable Threshold**: Adjustable similarity sensitivity
+
+---
+
+## Configuration
+
+### Model Settings
+
+```python
+# model.py
+model = YOLO("weights/epoch_3/best.pt")
+conf_threshold = 0.6
+frame_skip = 5
+```
+
+### Matching Settings
+
+```python
+# matching.py
+threshold = 0.85
+model = SentenceTransformer("clip-ViT-B-32")
+```
+
+---
+
+## Dependencies
+
+```
 ultralytics>=8.0.0
 opencv-python>=4.8.0
 Pillow>=9.0.0
@@ -155,256 +290,80 @@ torch>=2.0.0
 torchvision>=0.15.0
 pandas>=1.5.0
 numpy>=1.21.0
-matplotlib>=3.5.0
-seaborn>=0.11.0
+sentence-transformers>=2.0.0
+scikit-learn>=1.0.0
+tqdm>=4.60.0
+requests>=2.25.0
 ```
-
----
-
-## Usage
-
-### Basic Image Detection
-
-```python
-from model import main
-import cv2
-
-# Initialize the model
-model = YOLO("weights/best.pt")
-
-# Process a single image
-image_path = "path/to/your/image.jpg"
-results = model(image_path)
-
-# Display results
-for r in results:
-    r.show()
-```
-
-### Video Processing
-
-```python
-# Process video with duplicate removal
-python model.py
-```
-
-**Configuration Options:**
-- `conf_threshold`: Detection confidence (default: 0.6)
-- `frame_skip`: Frame sampling rate (default: 5)
-- `output_dir`: Output directory for crops
-- `video_path`: Input video file path
-
-### Vibe Classification
-
-```python
-import json
-
-# Load vibe classifications
-with open("data/vibeslist.json", "r") as f:
-    vibes = json.load(f)
-
-# Available vibes: Coquette, Clean Girl, Cottagecore, 
-# Streetcore, Y2K, Boho, Party Glam
-```
-
----
-
-## Model Training
-
-### Training Configuration
-
-The model was trained with the following parameters:
-
-```yaml
-# model_reports/args.yaml
-task: detect
-model: yolov8m.pt
-epochs: 3
-batch: 16
-imgsz: 640
-device: '0'
-```
-
-### Training Process
-
-1. **Data Preparation**
-   ```bash
-   # Convert Excel data to CSV
-   python data/main.py
-   ```
-
-2. **Model Training**
-   ```bash
-   # Train with custom dataset
-   yolo train model=yolov8m.pt data=datasets/data.yaml epochs=3
-   ```
-
-3. **Evaluation**
-   ```bash
-   # Validate model performance
-   yolo val model=weights/best.pt data=datasets/data.yaml
-   ```
-
-### Performance Metrics
-
-The trained model achieves:
-- **mAP@0.5**: High precision across fashion categories
-- **Inference Speed**: ~76ms per image (640x384)
-- **Accuracy**: Optimized for fashion item detection
 
 ---
 
 ## Data Structure
 
-### Input Data Format
+### Input Videos
+- Location: `data/instagram_reels/`
+- Format: MP4, AVI, MOV
+- Processing: Frame-by-frame analysis
 
-```csv
-# data/images.csv
-id,image_url
-14976,https://cdn.shopify.com/s/files/1/0785/1674/8585/files/...
-14977,https://cdn.shopify.com/s/files/1/0785/1674/8585/files/...
-```
+### Product Database
+- Location: `data/shopify_data/`
+- Format: CSV with `id` and `image_url` columns
+- Matching: CLIP embeddings comparison
 
-### Vibe Classifications
-
-```json
-// data/vibeslist.json
-[
-  "Coquette",
-  "Clean Girl", 
-  "Cottagecore",
-  "Streetcore",
-  "Y2K",
-  "Boho",
-  "Party Glam"
-]
-```
-
-### Output Structure
-
-```
-output/
-├── crops/                    # Individual fashion item crops
-├── video_crops_unique/       # Deduplicated video frames
-├── matched_results.csv       # Classification results
-└── model_reports/           # Training metrics
-```
+### Output Files
+- **Crops**: `video_crops/crops_YYYY-MM-DD_HH-MM-SS/`
+- **Matches**: `results/matched_results_YYYYMMDD_HHMMSS.csv`
+- **Logs**: `failed_urls.txt`, `bad_urls.csv`
 
 ---
 
-## API Reference
+## Performance
 
-### Core Functions
+### Processing Speed
+- **Video Processing**: ~76ms per frame (640x384)
+- **Frame Skip**: 5 frames for efficiency
+- **Duplicate Detection**: Color histogram comparison
 
-#### `is_similar(img1, img2, threshold=0.4)`
-Compares two images for similarity using color histogram analysis.
-
-**Parameters:**
-- `img1, img2`: PIL Image objects
-- `threshold`: Similarity threshold (0.0-1.0)
-
-**Returns:** Boolean indicating similarity
-
-#### `main()`
-Main processing function for video analysis.
-
-**Features:**
-- YOLO model initialization
-- Frame-by-frame processing
-- Duplicate detection
-- Crop extraction and saving
-
-### Model Configuration
-
-```python
-# Model parameters
-model = YOLO("weights/best.pt")
-conf_threshold = 0.6
-frame_skip = 5
-output_dir = "video_crops_unique1"
-```
-
----
-
-## Performance Metrics
-
-### Model Performance
-
-| Metric | Value | Description |
-|--------|-------|-------------|
-| **Inference Speed** | 76.2ms | Average processing time per image |
-| **Preprocessing** | 5.3ms | Image preparation time |
-| **Postprocessing** | 204.3ms | Result processing time |
-| **Confidence Threshold** | 0.6 | Detection confidence level |
-| **Frame Skip** | 5 | Video frame sampling rate |
-
-### Training Results
-
-The model training generated comprehensive reports including:
-- Confusion matrices
-- Precision-Recall curves
-- F1 score analysis
-- Training batch visualizations
+### Matching Accuracy
+- **CLIP Model**: clip-ViT-B-32 for semantic matching
+- **Similarity Threshold**: 0.85 for confident matches
+- **Batch Processing**: Efficient handling of large datasets
 
 ---
 
 ## Contributing
 
-We welcome contributions! Please follow these steps:
-
-1. **Fork the repository**
-2. **Create a feature branch**
-   ```bash
-   git checkout -b feature/amazing-feature
-   ```
-3. **Commit your changes**
-   ```bash
-   git commit -m 'Add amazing feature'
-   ```
-4. **Push to the branch**
-   ```bash
-   git push origin feature/amazing-feature
-   ```
-5. **Open a Pull Request**
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Open a Pull Request
 
 ### Development Guidelines
 
 - Follow PEP 8 style guidelines
 - Add comprehensive docstrings
-- Include unit tests for new features
+- Include error handling
 - Update documentation as needed
 
 ---
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-## Acknowledgments
-
-- **YOLO Community**: For the excellent object detection framework
-- **Ultralytics**: For the YOLO v8 implementation
-- **OpenCV**: For computer vision capabilities
-- **Fashion Dataset Contributors**: For providing training data
+This project is licensed under the MIT License.
 
 ---
 
 ## Support
 
-For questions, issues, or contributions:
-
+For questions or issues:
 - **Issues**: [GitHub Issues](https://github.com/yourusername/flickd/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/yourusername/flickd/discussions)
 - **Email**: your.email@example.com
 
 ---
 
 <div align="center">
 
-**Made with ❤️ for the fashion tech community**
-
-*Tagging & Vibe Classification Engine - Where AI meets Fashion*
+*Tagging & Vibe Classification Engine - Fashion Detection & Matching*
 
 </div> 
