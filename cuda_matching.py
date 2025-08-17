@@ -14,6 +14,7 @@ from concurrent.futures import ThreadPoolExecutor
 CROPPED_IMAGES_DIR = "video_crops\\crops_2025-08-17_12-50-31"
 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 OUTPUT_CSV = f"results\\matched_results_{timestamp}.csv"
+os.makedirs(os.path.dirname(OUTPUT_CSV), exist_ok=True)
 FAILED_URLS_LOG = "failed_urls.txt"
 SHOPIFY_DATA = "data\\shopify_data\\url_data_small.csv"
 THRESHOLD = 0.85
@@ -25,6 +26,7 @@ df = pd.read_csv(SHOPIFY_DATA)
 
 # Load model on GPU if available
 device = "cuda" if os.environ.get("CUDA_VISIBLE_DEVICES") else "cpu"
+print(f"model running on {device}")
 model = SentenceTransformer("clip-ViT-B-32", device=device)
 
 # ------------------- HELPER -------------------
