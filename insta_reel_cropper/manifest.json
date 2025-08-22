@@ -1,0 +1,26 @@
+{
+  "manifest_version": 3,
+  "name": "Instagram Reel Frame Cropper",
+  "version": "1.0",
+  "description": "Capture and crop frames from Instagram Reels.",
+  "permissions": ["scripting", "activeTab"],
+  "host_permissions": ["https://www.instagram.com/*"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.instagram.com/reel/*"],
+      "js": ["content.js"]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["cropper.html", "cropper.js", "cropper.css"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "action": {
+    "default_popup": "cropper.html"
+  }
+}

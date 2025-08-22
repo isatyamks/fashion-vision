@@ -1,21 +1,24 @@
+
 import cv2
 from ultralytics import YOLO
 from PIL import Image
 import os
 import numpy as np
-from datetime import datetime
 import matplotlib.pyplot as plt
-
+import argparse
 from src.similar import similar
 
 # model = YOLO("weights\\epoch_3\\best.pt")
 model = YOLO("weights\\tg\\tg.pt")
 
-timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-output_dir = f"video_crops\\crops_{timestamp}"
-video_path = "data\\instagram_reels\\2025-05-31_14-01-37_UTC.mp4"
-
 def main():
+    parser = argparse.ArgumentParser(description="Crop objects from video using YOLO model.")
+    parser.add_argument('--video', type=str, required=True, help='Input video file path')
+    parser.add_argument('--output_dir', type=str, required=True, help='Directory to save cropped images')
+    args = parser.parse_args()
+
+    video_path = args.video
+    output_dir = args.output_dir
     names = model.names
     conf_threshold = 0.2
     os.makedirs(output_dir, exist_ok=True)

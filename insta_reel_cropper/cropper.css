@@ -1,0 +1,4 @@
+body { font-family: Arial, sans-serif; margin: 20px; }
+h2 { color: #3897f0; }
+#download-btn { margin-top: 20px; padding: 10px 20px; background: #3897f0; color: #fff; border: none; border-radius: 6px; font-size: 16px; cursor: pointer; }
+#download-btn:hover { background: #2176bd; }

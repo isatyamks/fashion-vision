@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Video URL Frame Cropper</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 30px; }
+        #video { max-width: 80vw; max-height: 60vh; display: block; margin-bottom: 20px; }
+        #frame-canvas { border: 2px dashed #3897f0; margin-top: 20px; }
+        #controls { margin-bottom: 20px; }
+        #crop-btn, #download-btn { margin-right: 10px; }
+    </style>
+</head>
+<body>
+    <h2>Video URL Frame Cropper</h2>
+    <div id="controls">
+        <input type="text" id="video-url" placeholder="Paste direct video URL here" size="60">
+        <button id="load-btn">Load Video</button>
+        <button id="capture-btn">Capture Frame</button>
+    </div>
+    <video id="video" controls crossorigin="anonymous"></video>
+    <canvas id="frame-canvas" style="display:none;"></canvas>
+    <br>
+    <button id="crop-btn" style="display:none;">Crop Area</button>
+    <button id="download-btn" style="display:none;">Download Cropped</button>
+    <script>
+        const video = document.getElementById('video');
+        const loadBtn = document.getElementById('load-btn');
+        const captureBtn = document.getElementById('capture-btn');
+        const canvas = document.getElementById('frame-canvas');
+        const cropBtn = document.getElementById('crop-btn');
+        const downloadBtn = document.getElementById('download-btn');
+        let cropRect = null;
+        let cropStart = null;
+        let cropEnd = null;
+
+        loadBtn.onclick = function() {
+            const url = document.getElementById('video-url').value.trim();
+            if (!url) { alert('Please enter a video URL!'); return; }
+            video.src = url;
+            video.style.display = 'block';
+        };
+
+        captureBtn.onclick = function() {
+            if (video.readyState < 2) { alert('Video not loaded!'); return; }
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+            canvas.style.display = 'block';
+            cropBtn.style.display = 'inline-block';
+            downloadBtn.style.display = 'inline-block';
+        };
+
+        cropBtn.onclick = function() {
+            alert('Draw a rectangle on the frame to crop.');
+        };
+
+        // Simple cropping with mouse events
+        canvas.onmousedown = function(e) {
+            cropStart = { x: e.offsetX, y: e.offsetY };
+            cropRect = document.createElement('div');
+            cropRect.style.position = 'absolute';
+            cropRect.style.border = '2px dashed #3897f0';
+            cropRect.style.left = (canvas.offsetLeft + cropStart.x) + 'px';
+            cropRect.style.top = (canvas.offsetTop + cropStart.y) + 'px';
+            cropRect.style.width = '0px';
+            cropRect.style.height = '0px';
+            cropRect.id = 'crop-rect';
+            document.body.appendChild(cropRect);
+            canvas.onmousemove = function(e2) {
+                cropEnd = { x: e2.offsetX, y: e2.offsetY };
+                cropRect.style.width = Math.abs(cropEnd.x - cropStart.x) + 'px';
+                cropRect.style.height = Math.abs(cropEnd.y - cropStart.y) + 'px';
+                cropRect.style.left = (canvas.offsetLeft + Math.min(cropStart.x, cropEnd.x)) + 'px';
+                cropRect.style.top = (canvas.offsetTop + Math.min(cropStart.y, cropEnd.y)) + 'px';
+            };
+        };
+        canvas.onmouseup = function(e) {
+            canvas.onmousemove = null;
+        };
+
+        downloadBtn.onclick = function() {
+            if (!cropStart || !cropEnd) {
+                // Download full frame
+                const a = document.createElement('a');
+                a.href = canvas.toDataURL('image/png');
+                a.download = 'frame.png';
+                a.click();
+            } else {
+                // Download cropped area
+                const x = Math.min(cropStart.x, cropEnd.x);
+                const y = Math.min(cropStart.y, cropEnd.y);
+                const w = Math.abs(cropEnd.x - cropStart.x);
+                const h = Math.abs(cropEnd.y - cropStart.y);
+                const cropCanvas = document.createElement('canvas');
+                cropCanvas.width = w;
+                cropCanvas.height = h;
+                cropCanvas.getContext('2d').drawImage(canvas, x, y, w, h, 0, 0, w, h);
+                const a = document.createElement('a');
+                a.href = cropCanvas.toDataURL('image/png');
+                a.download = 'cropped_frame.png';
+                a.click();
+            }
+        };
+    </script>
+</body>
+</html>
