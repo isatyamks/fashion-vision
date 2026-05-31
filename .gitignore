@@ -26,6 +26,9 @@ data/
 vectordb/
 fashion_db/
 outputs/
+result/
+results/
+reports/
 temp_*.mp4
 
 # ── Model Weights (Huge Files) ────────────────────────────────────────────────
