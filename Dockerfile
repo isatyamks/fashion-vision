@@ -11,6 +11,8 @@ RUN apt-get update && apt-get install -y \
 
 # Copy the requirements file and install dependencies
 COPY requirements.txt .
+# Install CPU-only PyTorch first to save ~4GB of space and prevent EC2 disk full errors
+RUN pip install --no-cache-dir torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
