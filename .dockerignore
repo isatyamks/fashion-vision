@@ -12,7 +12,7 @@ venv/
 frontend/
 node_modules/
 .next/
-data/
+/data/
 outputs/
 results/
 reports/
