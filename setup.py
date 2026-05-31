@@ -1,0 +1,47 @@
+from setuptools import setup, find_packages
+
+setup(
+    name="fashion-vision",
+    version="1.0.0",
+    author="Satyam Kumar",
+    author_email="isatyamks@gmail.com",
+    description="AI-powered fashion visual search: detect clothing in videos, match to a product catalog.",
+    long_description=open("README.md", encoding="utf-8").read(),
+    long_description_content_type="text/markdown",
+    url="https://github.com/isatyamks/fashion-vision",
+    packages=find_packages(exclude=["tests*", "notebooks*", "scripts*"]),
+    python_requires=">=3.9",
+    install_requires=[
+        "torch>=2.0.0",
+        "torchvision>=0.15.0",
+        "ultralytics>=8.0.0",
+        "sentence-transformers>=2.2.0",
+        "chromadb>=0.4.0",
+        "faiss-cpu>=1.7.4",
+        "opencv-python>=4.8.0",
+        "Pillow>=9.0.0",
+        "pandas>=1.5.0",
+        "numpy>=1.21.0",
+        "requests>=2.28.0",
+        "tqdm>=4.64.0",
+        "matplotlib>=3.5.0",
+    ],
+    extras_require={
+        "dev": [
+            "pytest>=7.0",
+            "pytest-cov",
+        ],
+    },
+    classifiers=[
+        "Development Status :: 4 - Beta",
+        "Intended Audience :: Developers",
+        "Intended Audience :: Science/Research",
+        "Topic :: Scientific/Engineering :: Artificial Intelligence",
+        "Topic :: Scientific/Engineering :: Image Recognition",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
+    ],
+    keywords="fashion ai yolo clip embeddings visual-search shopify",
+)
