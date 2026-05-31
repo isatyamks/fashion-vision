@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  backend:
+    build: .
+    container_name: fashion-backend
+    ports:
+      - "80:8000"
+    restart: unless-stopped
+    environment:
+      - KMP_DUPLICATE_LIB_OK=TRUE
+    volumes:
+      - ./data:/app/data
+      - ./outputs:/app/outputs
+      - ./results:/app/results
