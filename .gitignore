@@ -1,10 +1,47 @@
-/data/datasets/train
-/data/datasets/valid
-# /data/instagram_reels
-/docs
-/kaggle_data
-/.ipynb_checkpoints
-/.vscode
-/video_crops
-/weights
-/product_images
+# ── Node & Frontend ──────────────────────────────────────────────────────────
+node_modules/
+.next/
+out/
+build/
+.env*.local
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+
+# ── Python & Backend ──────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+.Python
+.mypy_cache/
+.ruff_cache/
+venv/
+.venv/
+env/
+
+# ── Data & Vector DB (Huge Files) ─────────────────────────────────────────────
+data/
+vectordb/
+fashion_db/
+outputs/
+temp_*.mp4
+
+# ── Model Weights (Huge Files) ────────────────────────────────────────────────
+weights/
+*.pt
+yolov8n.pt
+
+# ── IDE / OS ──────────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+.ipynb_checkpoints/
+*.DS_Store
+Thumbs.db
+
+# ── Legacy / Logs ─────────────────────────────────────────────────────────────
+failed_urls.txt
+bad_urls.csv
+kaggle_data/
+*.log
