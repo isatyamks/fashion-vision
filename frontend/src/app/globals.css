@@ -1,0 +1,112 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+
+:root {
+  /* Colors */
+  --bg: #FAFAFA;
+  --surface: #FFFFFF;
+  --border: #EAEAEA;
+  --text-primary: #111111;
+  --text-secondary: #666666;
+  --accent: #2B59FF;
+  --accent-hover: #1F42CC;
+
+  /* Spacing */
+  --space-4: 4px;
+  --space-8: 8px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-24: 24px;
+  --space-32: 32px;
+  --space-48: 48px;
+  --space-64: 64px;
+  --space-96: 96px;
+
+  /* Typography */
+  --font-serif: 'Playfair Display', serif;
+  --font-sans: 'Inter', sans-serif;
+
+  /* Radii */
+  --radius-card: 16px;
+  --radius-btn: 12px;
+  --radius-img: 16px;
+
+  /* Shadows */
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
+  --shadow-md: 0 8px 24px rgba(0,0,0,0.06);
+  --shadow-lg: 0 12px 32px rgba(0,0,0,0.08);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  height: 100vh;
+  overflow: hidden; /* Prevent full page scroll */
+}
+
+/* Typography Scale */
+h1 { font-family: var(--font-serif); font-size: 56px; font-weight: 600; line-height: 1.1; letter-spacing: -1px; }
+h2 { font-family: var(--font-serif); font-size: 40px; font-weight: 500; line-height: 1.2; letter-spacing: -0.5px; }
+h3 { font-family: var(--font-serif); font-size: 28px; font-weight: 500; line-height: 1.3; }
+p { font-size: 16px; line-height: 1.6; color: var(--text-secondary); }
+.caption { font-size: 14px; color: var(--text-secondary); letter-spacing: 0.5px; }
+
+/* Global Utilities */
+.btn-primary {
+  background: var(--text-primary);
+  color: white;
+  padding: var(--space-16) var(--space-32);
+  border-radius: var(--radius-btn);
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 16px;
+}
+.btn-primary:hover {
+  background: #333;
+}
+
+/* Base Layouts */
+.main-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: var(--space-32) var(--space-64); /* Perfect left/right margins */
+  width: 100%;
+  flex: 1;
+  min-height: 0; /* Crucial for internal scroll */
+}
+
+/* Skeleton Loading Animation */
+@keyframes shimmer {
+  0% { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
+}
+
+.skeleton {
+  background: #f6f7f8;
+  background-image: linear-gradient(to right, #f6f7f8 0%, #edeef1 20%, #f6f7f8 40%, #f6f7f8 100%);
+  background-repeat: no-repeat;
+  background-size: 1000px 100%;
+  animation-duration: 1.5s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-name: shimmer;
+  animation-timing-function: linear;
+}
