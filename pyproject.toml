@@ -1,0 +1,52 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.backends.legacy:build"
+
+[project]
+name = "fashion-vision"
+version = "1.0.0"
+authors = [{ name = "Satyam Kumar", email = "isatyamks@gmail.com" }]
+description = "AI-powered fashion visual search — detect clothing in videos, match to a product catalog."
+readme = "README.md"
+requires-python = ">=3.9"
+keywords = ["fashion", "yolo", "clip", "visual-search", "embeddings"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Programming Language :: Python :: 3",
+]
+
+dependencies = [
+    "torch>=2.0.0",
+    "torchvision>=0.15.0",
+    "ultralytics>=8.0.0",
+    "sentence-transformers>=2.2.0",
+    "chromadb>=0.4.0",
+    "faiss-cpu>=1.7.4",
+    "opencv-python>=4.8.0",
+    "Pillow>=9.0.0",
+    "pandas>=1.5.0",
+    "numpy>=1.21.0",
+    "requests>=2.28.0",
+    "tqdm>=4.64.0",
+    "matplotlib>=3.5.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7.0", "pytest-cov"]
+
+[project.urls]
+Homepage = "https://github.com/isatyamks/fashion-vision"
+Repository = "https://github.com/isatyamks/fashion-vision"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+
+[tool.mypy]
+python_version = "3.9"
+ignore_missing_imports = true
+warn_return_any = true
