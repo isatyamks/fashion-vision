@@ -1,31 +1,36 @@
-# ── Core ML ───────────────────────────────────────────────────────────────────
-torch>=2.0.0
-torchvision>=0.15.0
-ultralytics>=8.0.0
-transformers>=4.36.0      # For SigLIP models
+# ── Core ML ────────────────────────────────────────────────
+torch==2.6.0
+torchvision==0.21.0
+ultralytics==8.3.0
 
-# ── Embeddings & Matching ─────────────────────────────────────────────────────
-sentence-transformers>=2.2.0
-faiss-cpu>=1.7.4          # swap for faiss-gpu if using GPU FAISS
+transformers==4.53.0
+accelerate==1.6.0
+sentencepiece==0.2.0
+protobuf==5.29.4
+safetensors>=0.4.5
 
-# ── Computer Vision ───────────────────────────────────────────────────────────
-opencv-python>=4.8.0
-Pillow>=9.0.0
+# ── Embeddings & Matching ─────────────────────────────────
+sentence-transformers==4.1.0
+faiss-cpu==1.11.0
 
-# ── Data ──────────────────────────────────────────────────────────────────────
-pandas>=1.5.0
-numpy>=1.21.0
-requests>=2.28.0
-tqdm>=4.64.0
+# ── Computer Vision ───────────────────────────────────────
+opencv-python-headless==4.11.0.86
+Pillow==11.2.1
 
-# ── Visualisation ─────────────────────────────────────────────────────────────
-matplotlib>=3.5.0
-seaborn>=0.11.0
+# ── Data ──────────────────────────────────────────────────
+pandas==2.2.3
+numpy==1.26.4
+requests==2.32.3
+tqdm==4.67.1
 
-# ── Dev / Testing (optional) ──────────────────────────────────────────────────
-# pytest>=7.0
-# pytest-cov
-# -- API -----------------------------------------------------------------------
-fastapi>=0.100.0
-uvicorn>=0.23.0
-python-multipart>=0.0.6
+# ── Visualization ─────────────────────────────────────────
+matplotlib==3.10.1
+seaborn==0.13.2
+
+# ── API ───────────────────────────────────────────────────
+fastapi==0.115.12
+uvicorn[standard]==0.34.2
+python-multipart==0.0.20
+
+# ── Utilities ─────────────────────────────────────────────
+pydantic==2.11.5
