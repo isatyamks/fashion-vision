@@ -1,14 +1,10 @@
-
 import os
 from datetime import datetime
 from pathlib import Path
 from typing import List, Optional, Tuple
-
 import cv2
-import matplotlib.pyplot as plt
 from PIL import Image
 from ultralytics import YOLO
-
 from src.utils.config import (
     CONF_THRESHOLD,
     DEVICE,
@@ -17,12 +13,8 @@ from src.utils.config import (
     YOLO_WEIGHTS,
 )
 from src.preprocessing.image_processing import DuplicateFilter
-
 CropInfo = Tuple[Image.Image, str, float]
-
-
 class FashionDetector:
-
     def __init__(
         self,
         weights_path: Optional[str] = None,
@@ -34,13 +26,9 @@ class FashionDetector:
         self.conf_threshold = conf_threshold
         self.frame_skip = frame_skip
         self.device = device
-
         self.model = YOLO(weights_path)
         self.model.to(device)
         print(f"[FashionDetector] Loaded '{weights_path}' on {device}")
-
-
-
     def process_video(
         self,
         video_path: str,
@@ -48,30 +36,24 @@ class FashionDetector:
     ) -> Tuple[List[CropInfo], str]:
         output_dir = output_dir or self._default_output_dir()
         os.makedirs(output_dir, exist_ok=True)
-
         cap = cv2.VideoCapture(video_path)
         if not cap.isOpened():
             raise FileNotFoundError(f"Cannot open video: {video_path}")
-
         names = self.model.names
         dedup = DuplicateFilter()
         frame_count = 0
         crop_infos: List[CropInfo] = []
-
         print(f"[FashionDetector] Processing '{video_path}' → '{output_dir}'")
         try:
             while cap.isOpened():
                 ret, frame = cap.read()
                 if not ret:
                     break
-
                 if frame_count % self.frame_skip != 0:
                     frame_count += 1
                     continue
-
                 pil_image = Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
                 results = self.model(frame, device=self.device)[0]
-
                 for box, conf, cls in zip(
                     results.boxes.xyxy,
                     results.boxes.conf,
@@ -80,51 +62,22 @@ class FashionDetector:
                     conf_val = float(conf)
                     if conf_val < self.conf_threshold:
                         continue
-
                     x1, y1, x2, y2 = map(int, box)
                     cropped = pil_image.crop((x1, y1, x2, y2))
                     class_name = names[int(cls.item())]
-
                     if dedup.is_duplicate(cropped):
                         continue
-
                     dedup.add(cropped)
                     save_path = os.path.join(output_dir, f"{class_name}__{conf_val:.2f}.jpg")
                     cropped.save(save_path)
                     crop_infos.append((cropped, class_name, conf_val))
                     print(f"  Saved: {save_path}")
-
                 frame_count += 1
         finally:
             cap.release()
             cv2.destroyAllWindows()
-
         print(f"[FashionDetector] Done — {len(crop_infos)} unique crops saved.")
         return crop_infos, output_dir
-
-    def visualise(self, crop_infos: List[CropInfo], cols: int = 4) -> None:
-        if not crop_infos:
-            print("[FashionDetector] No crops to display.")
-            return
-
-        rows = (len(crop_infos) + cols - 1) // cols
-        fig, axes = plt.subplots(rows, cols, figsize=(15, 4 * rows))
-        axes = axes.flatten() if rows > 1 else [axes] * cols
-
-        for ax, (img, cls, conf) in zip(axes, crop_infos):
-            ax.imshow(img)
-            ax.set_title(f"{cls}\n({conf:.2f})", fontsize=9)
-            ax.axis("off")
-
-
-        for ax in axes[len(crop_infos):]:
-            ax.axis("off")
-
-        plt.tight_layout()
-        plt.show()
-
-
-
     @staticmethod
     def _default_output_dir() -> str:
         timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
