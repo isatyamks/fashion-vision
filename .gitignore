@@ -24,7 +24,6 @@ env/
 # ── Data & Vector DB (Huge Files) ─────────────────────────────────────────────
 data/
 vectordb/
-fashion_db/
 outputs/
 result/
 results/

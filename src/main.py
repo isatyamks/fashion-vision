@@ -1,24 +1,3 @@
-"""
-scripts/run_pipeline.py
-------------------------
-CLI entry point: run the full end-to-end Fashion Vision pipeline.
-
-Steps:
-  1. Detect and crop fashion items from a video  (FashionDetector)
-  2. Match crops against the product catalog     (FaissService)
-  3. Save results to a timestamped CSV
-
-Replaces the old run_all.py.
-
-Usage:
-    python scripts/run_pipeline.py --video data/instagram_reels/1.mp4
-    python scripts/run_pipeline.py \\
-        --video data/instagram_reels/1.mp4 \\
-        --crops_dir outputs/video_crops/my_run \\
-        --conf 0.25 \\
-        --threshold 0.75 \\
-        --visualise
-"""
 import argparse
 import os
 import sys
@@ -45,17 +24,16 @@ def parse_args() -> argparse.Namespace:
         description="End-to-end Fashion Vision pipeline: detect → match → report.",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
-    # Detection
-    parser.add_argument("--video", required=True, help="Input video file path.")
-    parser.add_argument("--weights", default=None, help="YOLO weights path.")
+    parser.add_argument("--video", required=True)
+    parser.add_argument("--weights", default=None)
     parser.add_argument("--conf", type=float, default=CONF_THRESHOLD)
     parser.add_argument("--frame_skip", type=int, default=FRAME_SKIP)
-    parser.add_argument("--crops_dir", default=None, help="Directory for crops (auto if omitted).")
+    parser.add_argument("--crops_dir", default=None)
 
 
     parser.add_argument("--device", default=DEVICE)
     parser.add_argument("--visualise", action="store_true")
-    parser.add_argument("--output_csv", default=None, help="Output CSV path.")
+    parser.add_argument("--output_csv", default=None)
     return parser.parse_args()
 
 
@@ -63,7 +41,7 @@ def main() -> None:
     args = parse_args()
     ts = datetime.now().strftime("%Y%m%d_%H%M%S")
 
-    # ── Step 1: Detection ─────────────────────────────────────────────────────
+
     print("\n" + "=" * 60)
     print("STEP 1 — Fashion Detection")
     print("=" * 60)
@@ -80,10 +58,10 @@ def main() -> None:
     )
 
     if not crops:
-        print("\n⚠️  No crops detected. Exiting.")
+        print("\nNo crops detected. Exiting.")
         return
 
-    # ── Step 2: Matching ──────────────────────────────────────────────────────
+
     print("\n" + "=" * 60)
     print(f"STEP 2 — Product Matching  [FAISS backend]")
     print("=" * 60)
@@ -92,7 +70,7 @@ def main() -> None:
     matcher = FaissService(threshold=args.threshold, device=args.device)
     results = matcher.match_crops(crops_dir=crops_dir, visualise=args.visualise)
 
-    # ── Step 3: Save Results ──────────────────────────────────────────────────
+
     print("\n" + "=" * 60)
     print("STEP 3 — Saving Results")
     print("=" * 60)
@@ -102,9 +80,9 @@ def main() -> None:
 
     if results:
         pd.DataFrame(results).to_csv(out_csv, index=False)
-        print(f"\n✅ {len(results)} matches saved → '{out_csv}'")
+        print(f"\n{len(results)} matches saved -> '{out_csv}'")
     else:
-        print("\n❌ No matches found above threshold.")
+        print("\nNo matches found above threshold.")
 
     print("\nPipeline complete.")
 

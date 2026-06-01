@@ -1,11 +1,4 @@
-"""
-fashion_vision/detection/detector.py
---------------------------------------
-FashionDetector: YOLO-based clothing detection from video.
 
-Merges model.py (CPU) and cuda_model.py (GPU) into a single configurable
-class. Device selection is automatic via `configs.config.DEVICE`.
-"""
 import os
 from datetime import datetime
 from pathlib import Path
@@ -25,20 +18,10 @@ from src.utils.config import (
 )
 from src.preprocessing.image_processing import DuplicateFilter
 
-# Type alias
-CropInfo = Tuple[Image.Image, str, float]  # (image, class_name, confidence)
+CropInfo = Tuple[Image.Image, str, float]
 
 
 class FashionDetector:
-    """
-    Detects and crops unique fashion items from a video using a YOLO model.
-
-    Usage::
-
-        detector = FashionDetector(weights_path="weights/best.pt")
-        crops, output_dir = detector.process_video("data/instagram_reels/1.mp4")
-        detector.visualise(crops)
-    """
 
     def __init__(
         self,
@@ -47,13 +30,6 @@ class FashionDetector:
         frame_skip: int = FRAME_SKIP,
         device: str = DEVICE,
     ):
-        """
-        Args:
-            weights_path: Path to YOLO .pt weights. Defaults to config.YOLO_WEIGHTS.
-            conf_threshold: Minimum confidence to accept a detection.
-            frame_skip: Process every Nth frame (2 = every other frame).
-            device: "cuda" or "cpu".
-        """
         weights_path = weights_path or str(YOLO_WEIGHTS)
         self.conf_threshold = conf_threshold
         self.frame_skip = frame_skip
@@ -63,26 +39,13 @@ class FashionDetector:
         self.model.to(device)
         print(f"[FashionDetector] Loaded '{weights_path}' on {device}")
 
-    # ── Public API ────────────────────────────────────────────────────────────
+
 
     def process_video(
         self,
         video_path: str,
         output_dir: Optional[str] = None,
     ) -> Tuple[List[CropInfo], str]:
-        """
-        Run detection on *video_path*, deduplicate crops, and save to disk.
-
-        Args:
-            video_path: Path to input video file.
-            output_dir: Directory for saved crops. Auto-timestamped if None.
-
-        Returns:
-            Tuple of (list of CropInfo, output directory path).
-
-        Raises:
-            FileNotFoundError: If the video cannot be opened.
-        """
         output_dir = output_dir or self._default_output_dir()
         os.makedirs(output_dir, exist_ok=True)
 
@@ -140,13 +103,6 @@ class FashionDetector:
         return crop_infos, output_dir
 
     def visualise(self, crop_infos: List[CropInfo], cols: int = 4) -> None:
-        """
-        Display a grid of cropped detections with their class and confidence.
-
-        Args:
-            crop_infos: List of (image, class_name, confidence) from :meth:`process_video`.
-            cols: Number of columns in the grid.
-        """
         if not crop_infos:
             print("[FashionDetector] No crops to display.")
             return
@@ -160,14 +116,14 @@ class FashionDetector:
             ax.set_title(f"{cls}\n({conf:.2f})", fontsize=9)
             ax.axis("off")
 
-        # Hide unused subplots
+
         for ax in axes[len(crop_infos):]:
             ax.axis("off")
 
         plt.tight_layout()
         plt.show()
 
-    # ── Private ───────────────────────────────────────────────────────────────
+
 
     @staticmethod
     def _default_output_dir() -> str:
