@@ -4,6 +4,8 @@ import faiss
 import numpy as np
 from PIL import Image
 from typing import Tuple, List, Set, Any
+
+
 class FaissIndexer:
     def __init__(self, index_path: str, ids_path: str, encoder: Any) -> None:
         self.index_path: str = index_path
@@ -12,6 +14,7 @@ class FaissIndexer:
         self.index: Any = None
         self.product_ids: List[str] = []
         self._load_or_init()
+
     def _load_or_init(self) -> None:
         if os.path.exists(self.index_path) and os.path.exists(self.ids_path):
             self.index = faiss.read_index(self.index_path)
@@ -20,6 +23,7 @@ class FaissIndexer:
         else:
             self.product_ids = []
             self.index = None
+
     def update_index(self, directory: str) -> Tuple[List[np.ndarray], List[str]]:
         image_files: List[str] = []
         for root, _, files in os.walk(directory):
@@ -53,6 +57,7 @@ class FaissIndexer:
             return new_embeddings, new_ids
         self.add_embeddings(new_embeddings, new_ids)
         return new_embeddings, new_ids
+
     def add_embeddings(self, embeddings: List[np.ndarray], ids: List[str]) -> None:
         if not embeddings:
             return
@@ -70,7 +75,9 @@ class FaissIndexer:
             print(f"Skipped {skipped} embeddings already present in this index.")
         if not filtered_embs:
             return
-        print(f"Adding {len(filtered_embs)} embeddings to FAISS index at {self.index_path}...")
+        print(
+            f"Adding {len(filtered_embs)} embeddings to FAISS index at {self.index_path}..."
+        )
         arr: np.ndarray = np.array(filtered_embs, dtype="float32")
         dim: int = arr.shape[1]
         if self.index is None:
@@ -81,6 +88,11 @@ class FaissIndexer:
         faiss.write_index(self.index, self.index_path)
         with open(self.ids_path, "w", encoding="utf-8") as f:
             json.dump(self.product_ids, f)
-        print(f"Successfully updated index! Total images in DB: {len(self.product_ids)}")
-    def search(self, embeddings: np.ndarray, search_k: int) -> Tuple[np.ndarray, np.ndarray]:
+        print(
+            f"Successfully updated index! Total images in DB: {len(self.product_ids)}"
+        )
+
+    def search(
+        self, embeddings: np.ndarray, search_k: int
+    ) -> Tuple[np.ndarray, np.ndarray]:
         return self.index.search(embeddings, min(search_k, len(self.product_ids)))

@@ -4,6 +4,8 @@ import requests
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import Dict, List
 from urllib.parse import urlparse
+
+
 class ProductImageDownloader:
     def __init__(self, csv_path: str, product_dir: str):
         self.csv_path = csv_path
@@ -11,28 +13,31 @@ class ProductImageDownloader:
         os.makedirs(self.product_dir, exist_ok=True)
         self.headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
-            "Accept": "image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8"
+            "Accept": "image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
         }
+
     def _is_valid_url(self, url: str) -> bool:
         try:
             result = urlparse(url)
-            return all([result.scheme in ('http', 'https'), result.netloc])
+            return all([result.scheme in ("http", "https"), result.netloc])
         except ValueError:
             return False
+
     def _parse_csv(self) -> Dict[str, List[str]]:
         products = {}
-        with open(self.csv_path, mode='r', encoding='utf-8') as f:
+        with open(self.csv_path, mode="r", encoding="utf-8") as f:
             reader = csv.DictReader(f)
             for row in reader:
-                pid = row['id'].strip()
+                pid = row["id"].strip()
                 if not pid:
                     continue
-                url = row.get('image_url', '').strip()
+                url = row.get("image_url", "").strip()
                 if url and self._is_valid_url(url):
                     if pid not in products:
                         products[pid] = []
                     products[pid].append(url)
         return products
+
     def _download_single(self, pid: str, idx: int, url: str, batch_dir: str) -> None:
         parsed = urlparse(url)
         ext = os.path.splitext(parsed.path)[1]
@@ -46,11 +51,12 @@ class ProductImageDownloader:
         try:
             resp = requests.get(url, headers=self.headers, stream=True, timeout=15)
             resp.raise_for_status()
-            with open(out_path, 'wb') as f:
+            with open(out_path, "wb") as f:
                 for chunk in resp.iter_content(chunk_size=8192):
                     f.write(chunk)
         except Exception:
             print(f"Failed to download {url}")
+
     def download_all(self, workers: int = 15, target_batch_size: int = 100):
         products = self._parse_csv()
         batches_tasks = {}
@@ -72,7 +78,10 @@ class ProductImageDownloader:
         for batch_dir, tasks in batches_tasks.items():
             bname = os.path.basename(batch_dir)
             with ThreadPoolExecutor(max_workers=workers) as executor:
-                futures = [executor.submit(self._download_single, t[0], t[1], t[2], t[3]) for t in tasks]
+                futures = [
+                    executor.submit(self._download_single, t[0], t[1], t[2], t[3])
+                    for t in tasks
+                ]
                 for future in as_completed(futures):
                     pass
         print("Download and batching complete.")

@@ -3,16 +3,24 @@ import cv2
 import numpy as np
 from PIL import Image
 from typing import List, Optional
+
 try:
     from ultralytics import YOLO
 except ImportError:
     pass
+
+
 class VideoProcessor:
-    def __init__(self, fps_sample_rate: float = 1.0, similarity_threshold: float = 0.45) -> None:
+    def __init__(
+        self, fps_sample_rate: float = 1.0, similarity_threshold: float = 0.45
+    ) -> None:
         self.fps_sample_rate: float = fps_sample_rate
         self.similarity_threshold: float = similarity_threshold
-        self.model: YOLO = YOLO('yolov8n.pt') 
-    def _is_duplicate(self, new_crop_bgr: np.ndarray, existing_hists: List[np.ndarray]) -> bool:
+        self.model: YOLO = YOLO("yolov8n.pt")
+
+    def _is_duplicate(
+        self, new_crop_bgr: np.ndarray, existing_hists: List[np.ndarray]
+    ) -> bool:
         if not existing_hists:
             return False
         hsv: np.ndarray = cv2.cvtColor(new_crop_bgr, cv2.COLOR_BGR2HSV)
@@ -23,7 +31,10 @@ class VideoProcessor:
             if similarity > self.similarity_threshold:
                 return True
         return False
-    def extract_dresses(self, video_path: str, save_dir: Optional[str] = None) -> List[Image.Image]:
+
+    def extract_dresses(
+        self, video_path: str, save_dir: Optional[str] = None
+    ) -> List[Image.Image]:
         if not os.path.exists(video_path):
             print(f"Error: Video file {video_path} not found.")
             return []
@@ -54,24 +65,39 @@ class VideoProcessor:
                         y2 = min(h, y2 + 10)
                         cropped_frame: np.ndarray = frame[y1:y2, x1:x2]
                         if cropped_frame.size > 0:
-                            hsv: np.ndarray = cv2.cvtColor(cropped_frame, cv2.COLOR_BGR2HSV)
-                            hist: np.ndarray = cv2.calcHist([hsv], [0, 1], None, [50, 60], [0, 180, 0, 256])
-                            cv2.normalize(hist, hist, alpha=0, beta=1, norm_type=cv2.NORM_MINMAX)
+                            hsv: np.ndarray = cv2.cvtColor(
+                                cropped_frame, cv2.COLOR_BGR2HSV
+                            )
+                            hist: np.ndarray = cv2.calcHist(
+                                [hsv], [0, 1], None, [50, 60], [0, 180, 0, 256]
+                            )
+                            cv2.normalize(
+                                hist, hist, alpha=0, beta=1, norm_type=cv2.NORM_MINMAX
+                            )
                             is_dup: bool = False
                             for saved_hist in saved_hists:
-                                sim: float = cv2.compareHist(hist, saved_hist, cv2.HISTCMP_CORREL)
+                                sim: float = cv2.compareHist(
+                                    hist, saved_hist, cv2.HISTCMP_CORREL
+                                )
                                 if sim > self.similarity_threshold:
                                     is_dup = True
                                     break
                             if not is_dup:
                                 saved_hists.append(hist)
-                                rgb_crop: np.ndarray = cv2.cvtColor(cropped_frame, cv2.COLOR_BGR2RGB)
+                                rgb_crop: np.ndarray = cv2.cvtColor(
+                                    cropped_frame, cv2.COLOR_BGR2RGB
+                                )
                                 pil_img: Image.Image = Image.fromarray(rgb_crop)
                                 crops.append(pil_img)
                                 if save_dir:
-                                    save_path: str = os.path.join(save_dir, f"frame_{frame_idx:04d}_crop_{len(crops)}.jpg")
+                                    save_path: str = os.path.join(
+                                        save_dir,
+                                        f"frame_{frame_idx:04d}_crop_{len(crops)}.jpg",
+                                    )
                                     pil_img.save(save_path, quality=90)
             frame_idx += 1
         cap.release()
-        print(f"Extracted {len(crops)} highly unique outfit crops from the reel (discarded duplicates).")
+        print(
+            f"Extracted {len(crops)} highly unique outfit crops from the reel (discarded duplicates)."
+        )
         return crops

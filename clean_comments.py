@@ -38,9 +38,7 @@ def remove_comments_and_docstrings(source):
     except tokenize.TokenError:
         return source # Fallback if syntax error
 
-    # Clean up excess blank lines left behind
-    cleaned_lines = [line for line in out.splitlines() if line.strip() != ""]
-    return "\n".join(cleaned_lines) + "\n"
+    return out
 
 def process_directory(directory):
     count = 0

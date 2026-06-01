@@ -16,7 +16,10 @@ from src.models.embeddings import SigLIPEncoder
 from src.retrieval.indexing import FaissIndexer
 from src.retrieval.ranking import CropMatcher
 from src.database.models import MetadataManager
+
 logger = logging.getLogger(__name__)
+
+
 class FaissService:
     def __init__(
         self,
@@ -47,18 +50,23 @@ class FaissService:
             threshold=threshold,
             top_k=top_k,
         )
+
     def update_index(self, directory: Optional[str] = None) -> None:
         self.indexer.update_index(directory=directory)
+
     def match_crops(
         self,
         crops_dir: str,
     ) -> List[Dict[str, Any]]:
         crop_files = sorted(
-            f for f in os.listdir(crops_dir)
+            f
+            for f in os.listdir(crops_dir)
             if f.lower().endswith((".jpg", ".png", ".jpeg"))
         )
         results: List[Dict[str, Any]] = []
-        for i in tqdm(range(0, len(crop_files), self.batch_size), desc="Matching crops"):
+        for i in tqdm(
+            range(0, len(crop_files), self.batch_size), desc="Matching crops"
+        ):
             batch_files = crop_files[i : i + self.batch_size]
             images, valid_names = self._load_batch(crops_dir, batch_files)
             if not images:
@@ -68,7 +76,9 @@ class FaissService:
             distances, indices = self.indexer.search(embs, search_k)
             for j, fname in enumerate(valid_names):
                 detected_class = fname.split("__")[0] if "__" in fname else ""
-                top_matches = self.matcher.top_matches(distances[j], indices[j], detected_class)
+                top_matches = self.matcher.top_matches(
+                    distances[j], indices[j], detected_class
+                )
                 if top_matches:
                     best = top_matches[0]
                     details = self.metadata_mgr.get_details(best["product_id"])
@@ -86,6 +96,7 @@ class FaissService:
                     scores = [distances[j][k] for k in range(self.matcher.top_k)]
                     print(f"  {fname} - no match (top scores: {scores})")
         return results
+
     def _load_batch(
         self, crops_dir: str, filenames: List[str]
     ) -> Tuple[List[Image.Image], List[str]]:

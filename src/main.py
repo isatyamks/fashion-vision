@@ -3,6 +3,7 @@ import os
 import sys
 from datetime import datetime
 from pathlib import Path
+
 sys.path.insert(0, str(Path(__file__).parent.parent))
 import pandas as pd
 from src.utils.config import (
@@ -14,6 +15,8 @@ from src.utils.config import (
     VIDEO_CROPS_DIR,
 )
 from src.models.yolo_detector import FashionDetector
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="End-to-end Fashion Vision pipeline: detect → match → report.",
@@ -27,6 +30,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--device", default=DEVICE)
     parser.add_argument("--output_csv", default=None)
     return parser.parse_args()
+
+
 def main() -> None:
     args = parse_args()
     ts = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -50,6 +55,7 @@ def main() -> None:
     print(f"STEP 2 — Product Matching  [FAISS backend]")
     print("=" * 60)
     from src.services.retrieval_service import FaissService
+
     matcher = FaissService(threshold=args.threshold, device=args.device)
     results = matcher.match_crops(crops_dir=crops_dir)
     print("\n" + "=" * 60)
@@ -63,5 +69,7 @@ def main() -> None:
     else:
         print("\nNo matches found above threshold.")
     print("\nPipeline complete.")
+
+
 if __name__ == "__main__":
     main()

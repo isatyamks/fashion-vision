@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 import torch
+
 ROOT: Path = Path(__file__).parent.parent.parent
 DATA_DIR: Path = ROOT / "data"
 OUTPUTS_DIR: Path = ROOT / "outputs"
@@ -15,12 +16,12 @@ SHOPIFY_PRODUCT_CSV: Path = DATA_DIR / "shopify_data" / "product_data.csv"
 YOLO_WEIGHTS: Path = Path(
     os.environ.get("FASHION_VISION_WEIGHTS", str(WEIGHTS_DIR / "yolo11n.pt"))
 )
-CONF_THRESHOLD: float = 0.2   
-FRAME_SKIP: int = 2           
-DEDUP_THRESHOLD: float = 0.4  
-MATCH_THRESHOLD: float = 0.75  
-BATCH_SIZE: int = 32           
-TOP_K: int = 3                 
+CONF_THRESHOLD: float = 0.2
+FRAME_SKIP: int = 2
+DEDUP_THRESHOLD: float = 0.4
+MATCH_THRESHOLD: float = 0.75
+BATCH_SIZE: int = 32
+TOP_K: int = 3
 SIGLIP_MODEL_NAME: str = os.environ.get(
     "FASHION_VISION_SIGLIP_MODEL", "google/siglip-base-patch16-224"
 )
