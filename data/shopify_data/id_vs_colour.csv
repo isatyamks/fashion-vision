@@ -1,0 +1,961 @@
+id,colour
+14976,Purple
+14977,Pink
+14978,Blue
+14980,Blue
+14981,Tan
+14982,Pink
+14983,Blue
+14984,Pink
+14985,Teal
+14987,Teal
+14988,Green
+14989,Off White
+14990,Blue
+14991,Blue
+14992,Blue
+14994,Black
+14995,Pink
+14996,Off White
+14997,Green
+14998,Black
+14999,Black
+15001,Grey
+15002,Blue
+15003,Black
+15004,Off White
+15005,Teal
+15006,Teal
+15008,MULTI
+15009,Black
+15010,Red
+15012,Off White
+15013,Black
+15014,Off White
+15019,Brown
+15020,Olive
+15021,Olive
+15023,Beige
+15025,Olive
+15026,Brown
+15027,White
+15030,Tan
+15031,Tan
+15032,Tan
+15034,Brown
+15035,Brown
+15041,Brown
+15044,Purple
+15046,Black
+15049,Pink
+15050,Black
+15052,White
+15053,Blue
+15056,Black
+15057,White
+15059,Blue
+15060,White
+15061,Purple
+15063,Black
+15064,White
+15066,Black
+15067,Purple
+15069,Pink
+15070,Black
+15071,Blue
+15073,Green
+15074,Red
+15076,Black
+15077,Pink
+15079,Cream
+15080,Purple
+15081,Blue
+15083,Blue
+15084,Rust
+15086,Pink
+15087,Black
+15088,Black
+15091,Navy Blue
+15092,Beige
+15094,Red
+15095,Black
+15096,Green
+15098,Off White
+15099,Black
+15101,Green
+15102,Black
+15103,Green
+15105,Brown
+15106,Off White
+15108,Black
+15109,White
+15111,Blue
+15113,White
+15114,White
+15116,Pink
+15117,Black
+15119,White
+15120,White
+15122,Off White
+15124,White
+15125,White
+15127,Navy Blue
+15128,Black
+15130,Grey
+15131,Navy Blue
+15132,White
+15133,Red
+15135,Navy Blue
+15137,Black
+15138,Red
+15140,Off White
+15142,Black
+15143,Black
+15145,Black
+15146,Black
+15148,Black
+15150,Blue
+15152,Off White
+15153,Black
+15155,Black
+15157,Red
+15158,Brown
+15159,Blue
+15161,Red
+15164,Navy Blue
+15166,Black
+15168,Blue
+15171,Black
+15174,White
+15175,Black
+15177,White
+15181,Black
+15183,Blue
+15184,Blue
+15186,Red
+15188,Red
+15191,Black
+15193,Black
+15195,Black
+15196,White
+15198,Black
+15200,Blue
+15202,White
+15203,Black
+15205,Red
+15207,Black
+15209,Black
+15211,Black
+15213,Black
+15215,Black
+15216,White
+15218,Black
+15220,White
+15222,Black
+15224,Red
+15226,Black
+15228,Black
+15230,Blue
+15232,Off White
+15234,Black
+15236,Black
+15238,Brown
+15240,Light Blue
+15241,Blue
+15243,Dark Blue
+15246,Blue
+15247,Dark Blue
+15249,Dark Blue
+15250,Black
+15252,Grey
+15253,Light Blue
+15257,Light Blue
+15259,Blue
+15260,Dark Blue
+15262,Blue
+15264,Blue And Olive
+15268,Black
+15270,Blue
+15272,Red
+15273,Green
+15275,Blue
+15277,Off White
+15279,Blue
+15280,Olive
+15282,Blue
+15284,Pink
+15286,Blue
+15288,Olive
+15290,Off White
+15292,Blue
+15293,Olive
+15295,Blue
+15297,Off White
+15299,Blue
+15301,Red
+15303,Orange
+15305,Beige
+15307,Blue
+15309,Olive
+15311,Olive
+15312,White
+15314,Green
+15316,Blue
+15318,White
+15320,Multi
+15322,Pink
+15324,Red
+15326,Blue
+15328,Blue
+15330,Orange
+15331,Orange
+15333,Olive
+15335,Beige
+15337,Pink
+15339,Orange
+15341,Green
+15343,Green
+15345,Pink
+15346,Blue
+15348,Beige
+15350,Beige
+15352,Orange
+15355,Red
+15357,White
+15358,Brown
+15360,Red
+15363,Black
+15364,White
+15366,Black
+15368,Pink
+15369,Black
+15371,Black
+15373,Pink
+15375,MULTI
+15377,Black
+15378,Black
+15380,Blue
+15381,Green
+15383,Blue
+15385,Pink
+15387,Green
+15389,Black
+15391,Pink
+15393,Black
+15395,Black
+15397,Black
+15399,Black
+15401,Beige
+15403,Cream
+15405,Cream
+15407,Beige
+15409,Black
+15411,Beige
+15413,Brown
+15415,Cream
+15417,Olive
+15419,Blue
+15421,Olive
+15422,Khaki
+15424,Beige
+15426,Olive
+15428,Olive
+15430,Beige
+15432,Pink
+15435,Olive
+15437,Blue
+15440,Blue
+15442,Beige
+15444,Beige
+15446,Blue
+15449,Olive
+15451,Blue
+15453,Olive
+15458,Beige
+15460,Beige
+15463,Olive
+15465,Blue
+15470,Pink
+15472,Olive
+15475,Beige
+15477,Pink
+15480,Beige
+15484,Olive
+15487,Pink
+15489,Blue
+15492,Pink
+15495,Blue
+15500,Olive
+15503,Blue
+15505,Blue
+15510,Black
+15513,Blue
+15518,Blue
+15521,Black
+15523,White
+15525,Navy
+15528,Beige
+15533,Black
+15536,White
+15538,Black
+15541,Black
+15543,Navy
+15545,Blue
+15547,Grey
+15550,Brown
+15552,Black
+15555,Grey
+15557,Black
+15559,White
+15562,Grey
+15564,Black
+15567,Black
+15569,Brown
+15571,White
+15574,Green
+15576,Black
+15579,Blue
+15581,Grey
+15584,Black
+15587,Black
+15589,Black
+15592,Black
+15594,Grey
+15597,Blue
+15599,Pink
+15601,Navy
+15604,Grey
+15607,Black
+15610,Blue
+15612,Black
+15614,Grey
+15617,Black
+15619,Grey
+15622,Black
+15624,White
+15626,Grey
+15629,Grey
+15631,Grey
+15634,Blue
+15638,Black
+15640,Black
+15643,White
+15648,White
+15651,Black
+15654,White
+15658,Black
+15662,White
+15665,Black
+15668,White
+15672,Black
+15675,Black And White
+15678,Red
+15682,Black
+15686,Red
+15689,Black
+15693,Red
+15697,White
+15703,White
+15707,Black
+15710,Red
+15713,Black
+15717,Red
+15721,White
+15724,Lavender
+15727,Purple
+15729,Green
+15732,Purple
+15739,Green
+15742,Multi
+15745,Multi
+15748,Red
+15752,Red
+15756,Red
+15759,Red
+15762,Blue
+15773,Blue
+15777,White
+15780,White
+15783,Red
+15786,Red
+15789,Black
+15794,Multi
+15797,White
+15801,White
+15805,MULTI
+15816,Purple
+15819,White
+15824,Blue
+15828,Black
+15831,Orange
+15843,Dark Blue
+15847,Pink
+15850,Black
+15854,Medium Blue
+15858,Dark Blue
+15861,Light Blue
+15865,Light Blue
+15868,Light Blue
+15871,Dark Blue
+15875,Light Blue
+15879,Dark Blue
+15882,Medium Blue
+15886,Medium Blue
+15890,Light Blue
+15901,Blue
+15905,Multi
+15910,Pink
+15913,Green
+15915,White
+15918,Blue
+15924,Blue
+15927,Blue
+15931,Red
+15934,Blue
+15940,Multicolor
+15947,Multicolor
+15951,Blue
+15954,Green
+15957,Green
+15960,Blue
+15963,Blue
+15966,Multicolor
+15970,Blue
+15974,Purple
+15977,Purple
+15984,Blue
+15992,Green
+15995,Multicolor
+16005,Multicolor
+16015,Orange
+16018,Orange
+16021,Orange
+16025,Green
+16028,Green
+16032,Beige
+16035,Green
+16040,Pink
+16043,Pink
+16046,Blue
+16050,Beige
+16053,Green
+16056,Blue
+16060,Pink
+16063,Green
+16066,Green
+16069,Blue
+16073,Pink
+16075,Blue
+16078,Multi
+16081,Multi
+16084,Multi
+16087,Multi
+16090,Multi
+16093,Pink
+16097,Pink
+16100,Multi
+16103,Multi
+16107,Beige
+16110,Multi
+16113,Multi
+16118,Blue
+16122,Blue
+16125,Pink
+16129,Green
+16131,Cream
+16135,Red
+16141,Red
+16145,Green
+16151,Red
+16154,Green
+16158,Lavender
+16166,Green
+16169,Lavender
+16173,Pink
+16176,Pink
+16179,Blue
+16186,Blue
+16190,White
+16192,White
+16194,Black
+16197,Light Green
+16200,Pink
+16202,Red
+16205,Black
+16208,Light Blue
+16210,Light Green
+16214,Black
+16217,Pink
+16219,White
+16222,Sky Blue
+16226,Green
+16230,Blue and White
+16234,Blue
+16239,Black
+16244,Green
+16247,Red
+16250,Brown
+16253,Blue
+16256,Green
+16260,Blue
+16264,Red
+16268,Black
+16272,Black
+16275,Blue
+16278,Blue
+16281,Blue
+16293,Black
+16296,Black
+16299,White
+16303,Blue
+16308,Green
+16311,Red
+16315,Black
+16335,Blue
+16344,Green
+16347,Green
+16350,Green
+16353,Pink
+16357,Green
+16361,Green
+16365,Pink
+16368,Black
+16372,Brown
+16375,Beige
+16389,Black
+16393,Beige
+16397,Green
+16400,Green
+16407,Black
+16410,green
+16413,Black
+16416,Black
+16420,Green
+16422,Green
+16426,Beige
+16430,Pink
+16433,Beige
+16437,Pink
+16441,Blue
+16444,Grey
+16448,Green
+16451,Green
+16455,Blue
+16459,Dark Blue
+16462,Light Blue
+16468,Twilight Blue
+16478,Pacific Blue
+16483,Ecru
+16486,Powder Blue
+16492,Dark Blue
+16496,Raven Black
+16500,Pacific Blue
+16508,Powder Blue
+16511,Green
+16523,Black And White
+16527,Blue
+16531,Black And White
+16534,Turquoise And White
+16537,Coral
+16541,Blue
+16545,Coral
+16548,Blue
+16551,Pink
+16555,Pink
+16558,Olive Green
+16567,Beige
+16572,Brown
+16575,Navy Blue
+16578,Ecru
+16584,Ecru
+16587,Ecru
+16590,Navy Blue
+16595,Multi
+16599,Multi
+16609,Multi
+16622,Multi
+16628,Navy Blue
+16631,Beige
+16651,Light Blue
+16654,Light Blue
+16657,Pink
+16659,Light Blue
+16667,Black
+16670,Black
+16676,White & Blue
+16682,Black
+16685,Black
+16690,Black
+16694,Beige
+16697,Black
+16700,Black
+16704,Ecru White
+16708,Ecru White
+16712,Ecru White
+16716,Ecru White
+16720,Ecru White
+16723,Light Blue
+16727,Ecru White
+16735,Ecru White
+16738,Ecru White
+16742,Ecru White
+16745,Ecru White
+16748,Ecru White
+16752,Ecru White
+16757,Ecru White
+16764,Ecru White
+16768,Purple
+16772,Light Blue
+16791,Ecru White
+16806,Ecru White
+16809,Ecru White
+16821,Purple
+16824,Light Blue
+16828,Light Blue
+16833,Ecru White
+16848,Ecru  White
+16854,Ecru White
+16867,Chocolate Brown
+16874,Sage Green
+16877,Navy
+16884,Blue
+16887,Blue
+16890,Blue
+16897,Orange
+16903,Green
+16907,Pink
+16912,Green
+16915,Pink
+16919,Green
+16922,Green
+16928,Sage Green
+16935,Blue
+16947,Navy
+16955,Pink
+16964,Cobalt Blue
+16965,Chocolate Brown
+16966,Khaki
+16967,Chocolate Brown
+16968,White
+16970,Khaki
+16972,Chocolate Brown
+16973,Olive
+16974,Black
+16975,Khaki
+16976,Orange
+16978,Black
+16979,Khaki
+16980,Blue
+16983,Blue
+16984,BLACK
+16989,BLACK
+16994,BLACK
+16997,BROWN
+17000,GREEN
+17004,Blue
+17007,Pink
+17010,White
+17011,White
+17012,Pink
+17018,Blue
+17021,Pastel Yellow
+17022,Multi
+17023,Pink
+17024,Blue
+17025,Blue
+17026,Green
+17027,Blue
+17028,Olive Green
+17029,Blue
+17030,Blue
+17031,Multi
+17032,Blue
+17033,Green
+17034,Blue
+17036,Red
+17037,Blue
+17038,Blue
+17039,Green
+17068,Navy
+17069,Green
+17070,Black
+17071,Green
+17074,Blue
+17075,Orange
+17076,Black
+17081,Blue
+17082,Black
+17083,Yellow
+17084,Orange
+17085,Wine Red
+17086,Green
+17087,Orange
+17088,Light Blue
+17089,Cobalt Blue
+17090,Light Blue
+17091,Yellow
+17092,Light Blue
+17095,Purple
+17098,Lilac
+17099,Green
+17103,Yellow
+17104,Light Blue
+17105,Black
+17106,Orange
+17107,BLACK
+17108,BLACK
+17109,BLACK
+17111,BLACK
+17112,RED
+17115,BLACK
+17116,BEIGE
+17120,RED
+17121,BLACK
+17128,RED
+17130,BLACK
+17131,RED
+17132,BLACK
+17133,RED
+17134,BLACK
+17135,MULTI
+17138,RED
+17139,MULTI
+17140,MULTI
+17141,MULTI
+17144,GREY
+17146,RED
+17147,MULTI
+17148,PINK
+17149,BLUE
+17151,BLUE
+17154,CHARCOAL
+17155,YELLOW
+17156,CHARCOAL
+17158,RED
+17159,BLUE
+17161,BLUE
+17162,BLUE
+17163,BLUE
+17164,PINK
+17167,MULTI
+17168,BLACK
+17173,Blue
+17176,Khakhi
+17179,Red
+17184,Brown
+17185,Multi Colour
+17187,Blue
+17191,Multi Colour
+17192,Mustard
+17197,White
+17198,White
+17202,Blue
+17207,Pink
+17208,Red
+17214,Pink
+17220,Yellow
+17222,White
+17223,Pink
+17225,White
+17227,White
+17228,Multi Colour
+17229,Coral
+17232,Yellow
+17236,Blue
+17237,White
+17240,Multi Colour
+17241,White
+17242,Multi Colour
+17243,White
+17246,Yellow
+17247,Black
+17248,Beige
+17250,Multi Colour
+17251,Black
+17252,Red
+17255,Yellow
+17256,Blue
+17259,Yellow
+17262,Pink
+17268,Blue
+17269,White
+17271,Pink
+17272,Brown
+17275,Green
+17277,Blue
+17278,Yellow
+17283,Red
+17285,Coral
+17288,Black
+17289,White
+17290,Green
+17291,Light Blue
+17292,Olive
+17293,Multi Colour
+17294,Blue
+17295,Beige
+17296,Multi Colour
+17297,Pink
+17299,Pink
+17302,Blue
+17303,Black
+17304,Green
+17305,Yellow
+17306,White
+17308,Black
+17309,Orange
+17311,Red
+17315,Blue
+17316,Red
+17317,Red
+17320,Blue
+17324,Black
+17327,Teal
+17329,Blue
+17330,Red
+17332,White
+17336,Multi Colour
+17339,Blue
+17340,Multi Colour
+17341,Green
+42029,Pink
+42030,Multi
+42031,Green
+42032,Cream
+42033,Green
+42034,Pink
+42035,Green
+42036,Maroon
+42037,Beige
+42038,Green
+42039,Pink
+42040,Beige
+42041,Pink
+42042,Maroon
+42043,Tan
+42044,Olive
+42045,White
+42046,Green
+42047,Olive
+42049,Off White
+42050,Yellow
+42051,Off White
+42052,Yellow
+42053,Pink
+42054,Off White
+42055,Yellow
+42056,Off White
+42057,Off White
+42058,Off White
+42059,Brown
+42060,Black
+42061,White
+42062,White
+42063,White
+42064,Maroon
+42065,Maroon
+42066,Maroon
+42067,Maroon
+42068,Black
+42069,Black
+42070,Maroon
+42071,Red
+42072,White
+42073,White
+42074,White
+42075,White
+42076,Yellow
+42077,Pink
+42078,Peach
+42079,Pink
+42080,Peach
+42081,White
+42082,Peach
+42083,Peach
+42084,White
+42085,Purple
+42086,Purple
+42087,Purple
+42088,Black
+42089,Black
+42090,Maroon
+42091,Maroon
+42092,Yellow
+42093,Olive
+42094,Grey
+42095,Black
+42096,Pink
+42097,Pink
+42098,Red
+42099,Pink
+42100,Black
+42101,White
+42102,White
+42103,Multi
+42104,White
+42105,White
+42106,Teal
+42107,White
+42108,Teal
+42109,Teal
+42110,Multi
+42111,Multi
+42112,Teal
+42113,White
+42114,White
+42115,Teal
+42116,White
+42117,Pink
+42118,Black
+42119,Navy Blue
+42120,Navy Blue
+42121,Navy Blue
+97539,Maroon
+97540,Black
+97541,Multi
+97542,Grey
+97543,Maroon
+97544,Pink
+97545,Red
+97546,Yellow
+97547,Olive
+97548,Yellow
+97549,White
+97550,Navy Blue
+97551,White
+97552,White
+97554,Pink
+97555,Maroon
+97556,Pink
+97557,Navy Blue
+97558,Grey
+97559,Maroon
+97561,Pink
+116103,White
+116104,Black
+116105,Green
+116106,Green
+116107,White
+118441,White
+118442,Black
+118443,Grey
+118444,White
+118446,Rust
+118447,Turquoise Blue
+118448,Red
+118449,Khaki
+118450,Turquoise Blue
+118451,Turquoise Blue
+118452,Black
+118453,Olive
+118454,Off White
+118455,Green
+118456,White
+118457,White
+118458,White
+118459,Off White
+118460,Off White
+118461,Off White
+118462,White
+118463,Green
+118464,Off White
