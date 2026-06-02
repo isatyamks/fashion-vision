@@ -3,7 +3,7 @@ services:
     build: .
     container_name: fashion-backend
     ports:
-      - "80:8000"
+      - "8000:8000"
     restart: unless-stopped
     environment:
       - KMP_DUPLICATE_LIB_OK=TRUE
@@ -11,3 +11,17 @@ services:
       - ./data:/app/data
       - ./outputs:/app/outputs
       - ./results:/app/results
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: fashion-frontend
+    ports:
+      - "80:3000"
+    restart: unless-stopped
+    environment:
+      # If deploying on EC2, this would be set to the EC2 public IP, e.g., http://<EC2-IP>:8000
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+    depends_on:
+      - backend

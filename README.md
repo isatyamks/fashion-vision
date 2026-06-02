@@ -6,6 +6,17 @@
   <img alt="PyTorch" src="https://img.shields.io/badge/PyTorch-2.0%2B-ee4c2c?style=flat-square">
   <img alt="FAISS" src="https://img.shields.io/badge/FAISS-Exact_Inner_Product-000000?style=flat-square">
   <img alt="FastAPI" src="https://img.shields.io/badge/FastAPI-Stateless-009688?style=flat-square">
+
+  <br/><br/>
+
+  <a href="https://youtu.be/4Lz84_Xoick" target="_blank">
+    <img src="https://img.youtube.com/vi/4Lz84_Xoick/maxresdefault.jpg"
+         alt="▶ Watch Demo – Fashion Vision in Action"
+         width="700"
+         style="border-radius:12px; box-shadow: 0 4px 20px rgba(0,0,0,0.4);">
+  </a>
+  <br/>
+  <sub>▶ <b>Click thumbnail to watch the full demo on YouTube</b></sub>
 </div>
 
 ---
